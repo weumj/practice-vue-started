@@ -66,11 +66,14 @@
             </div>
           </div>
           <footer class="card-footer">
-            <button class="link card-footer-item cancel-button">
+            <button
+              class="link card-footer-item cancel-button"
+              @click="cancelHero"
+            >
               <i class="fas fa-undo"></i>
               <span>Cancel</span>
             </button>
-            <button class="link card-footer-item">
+            <button class="link card-footer-item save-button" @click="saveHero">
               <i class="fas fa-save"></i>
               <span>Save</span>
             </button>
@@ -98,6 +101,14 @@ export default {
       },
       message: 'sas',
     };
+  },
+  methods: {
+    cancelHero() {
+      this.message = '';
+    },
+    saveHero() {
+      this.message = JSON.stringify(this.hero, null, 2);
+    },
   },
 };
 </script>
