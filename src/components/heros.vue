@@ -27,7 +27,7 @@
 <script>
 import HeroDetail from '@/components/HeroDetail';
 import HeroList from '@/components/HeroList';
-import { heroWatchers, lifecycleHooks, ourHeroes } from '../shared';
+import * as Shared from '../shared';
 
 export default {
   name: 'Heroes',
@@ -40,18 +40,15 @@ export default {
       capeMessage: '',
     };
   },
-  mixins: [lifecycleHooks, heroWatchers],
+  mixins: [Shared.lifecycleHooks, Shared.heroWatchers],
   created() {
     this.loadHeroes();
   },
   methods: {
-    async getHeroes() {
-      return new Promise(r => setTimeout(() => r(ourHeroes), 1500));
-    },
     async loadHeroes() {
       this.heroes = [];
       this.message = 'getting the heroes. please be patient';
-      this.heroes = await this.getHeroes();
+      this.heroes = await Shared.getHeroes();
       this.message = '';
     },
     cancelHero() {

@@ -1,38 +1,30 @@
+import axios from 'axios';
 import { format } from 'date-fns';
 
 import { inputDateFormat } from './constants';
+import { API } from './config';
 
-export const ourHeroes = [
-  {
-    id: 10,
-    firstName: 'Ella',
-    lastName: 'Papa',
-    capeCounter: 1,
-    originDate: format(new Date(1996, 5, 1), inputDateFormat),
-    description: 'fashionista',
-  },
-  {
-    id: 20,
-    firstName: 'Madelyn',
-    lastName: 'Papa',
-    capeCounter: 3,
-    originDate: format(new Date(1998, 7, 1), inputDateFormat),
-    description: 'the cat whisperer',
-  },
-  {
-    id: 30,
-    firstName: 'Haley',
-    lastName: 'Papa',
-    capeCounter: 2,
-    originDate: format(new Date(1999, 8, 1), inputDateFormat),
-    description: 'pen wielder',
-  },
-  {
-    id: 40,
-    firstName: 'Landon',
-    lastName: 'Papa',
-    capeCounter: 0,
-    originDate: format(new Date(2000, 9, 1), inputDateFormat),
-    description: 'arc trooper',
-  },
-];
+const parseList = res => {
+  if (res.status !== 200) throw new Error(res.message);
+
+  const list = res.data;
+  if (!list || typeof list !== 'object') return [];
+
+  return list;
+};
+
+export const getHeroes = async () => {
+  try {
+    const res = await axios.get(`${API}/heroes.json`);
+    const data = parseList(res);
+    const heroes = data.map(h => {
+      h.originDate = format(h.originDate, inputDateFormat);
+      return h;
+    });
+
+    return heroes;
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
+};
