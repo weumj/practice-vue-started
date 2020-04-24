@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="hero">
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">{{ fullName }}</p>
@@ -58,7 +58,7 @@
           <i class="fas fa-undo"></i>
           <span>Cancel</span>
         </button>
-        <button class="link card-footer-item" @click="saveHero()">
+        <button class="link card-footer-item" @click="saveHero">
           <i class="fas fa-save"></i>
           <span>Save</span>
         </button>
@@ -69,19 +69,19 @@
 
 <script>
 import { format } from 'date-fns';
-const displayDateFormat = 'MMM DD, YYYY';
+import { displayDateFormat, dataService } from '@/shared';
 
 export default {
   name: 'HeroDetail',
   props: {
-    derivedHero: {
-      type: Object,
-      default: () => ({}),
+    id: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
     return {
-      hero: { ...this.derivedHero },
+      hero: undefined,
       capeMessage: '',
     };
   },
@@ -89,6 +89,9 @@ export default {
     fullName() {
       return this.hero ? `${this.hero.firstName} ${this.hero.lastName}` : '';
     },
+  },
+  async created() {
+    this.hero = await dataService.getHero(this.id);
   },
   filters: {
     shortDate(value) {
@@ -105,6 +108,13 @@ export default {
     },
   },
   methods: {
+    cancelHero() {
+      this.$router.push({ name: 'heroes' });
+    },
+    async saveHero() {
+      await dataService.updateHero(this.hero);
+      this.$router.push({ name: 'heroes' });
+    },
     handleTheCapes(newValue) {
       const value = parseInt(newValue, 10);
       switch (value) {
@@ -121,12 +131,6 @@ export default {
           this.capeMessage = 'You can never have enough capes';
           break;
       }
-    },
-    cancelHero() {
-      this.$emit('cancel');
-    },
-    saveHero() {
-      this.$emit('save', this.hero);
     },
   },
 };

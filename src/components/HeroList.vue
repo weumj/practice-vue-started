@@ -11,10 +11,14 @@
           </div>
         </div>
         <footer class="card-footer">
-          <button class="link card-footer-item" @click="selectHero(hero)">
+          <router-link
+            :to="{ name: 'hero-detail', params: { id: hero.id } }"
+            tag="button"
+            class="link card-footer-item"
+          >
             <i class="fas fa-check"></i>
             <span>Select</span>
-          </button>
+          </router-link>
         </footer>
       </div>
     </li>
@@ -30,11 +34,7 @@ export default {
       default: () => [],
     },
   },
-  methods: {
-    selectHero(hero) {
-      this.$emit('select', hero);
-    },
-  },
+  methods: {},
 };
 </script>
 
