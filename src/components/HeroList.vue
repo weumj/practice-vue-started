@@ -11,6 +11,10 @@
           </div>
         </div>
         <footer class="card-footer">
+          <button class="link card-footer-item" @click="clickDelete(hero)">
+            <i class="fas fa-trash"></i>
+            <span>Delete</span>
+          </button>
           <router-link
             :to="{ name: 'hero-detail', params: { id: hero.id } }"
             tag="button"
@@ -34,7 +38,11 @@ export default {
       default: () => [],
     },
   },
-  methods: {},
+  methods: {
+    clickDelete(hero) {
+      this.$emit('delete', hero);
+    },
+  },
 };
 </script>
 

@@ -69,7 +69,8 @@
 
 <script>
 import { format } from 'date-fns';
-import { displayDateFormat, dataService } from '@/shared';
+import { displayDateFormat } from '@/shared';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'HeroDetail',
@@ -86,12 +87,29 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getHeroById']),
+    isAddMode() {
+      return !this.id;
+    },
+    title() {
+      return `${this.isAddMode ? 'Add' : 'Edit'} Hero`;
+    },
     fullName() {
       return this.hero ? `${this.hero.firstName} ${this.hero.lastName}` : '';
     },
   },
-  async created() {
-    this.hero = await dataService.getHero(this.id);
+  created() {
+    if (this.isAddMode) {
+      this.hero = {
+        id: undefined,
+        firstName: '',
+        lastName: '',
+        description: '',
+      };
+    } else {
+      const hero = this.getHeroById(this.id);
+      this.hero = JSON.parse(JSON.stringify(hero));
+    }
   },
   filters: {
     shortDate(value) {
@@ -108,11 +126,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['addHeroAction', 'updateHeroAction']),
     cancelHero() {
       this.$router.push({ name: 'heroes' });
     },
     async saveHero() {
-      await dataService.updateHero(this.hero);
+      this.isAddMode
+        ? await this.addHeroAction(this.hero)
+        : await this.updateHeroAction(this.hero);
       this.$router.push({ name: 'heroes' });
     },
     handleTheCapes(newValue) {

@@ -63,8 +63,32 @@ const updateHero = async function (hero) {
   }
 };
 
+const addHero = async function (hero) {
+  try {
+    const response = await axios.post(`${API}/heroes`, hero);
+    const addedHero = parseItem(response, 201);
+    return addedHero;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const deleteHero = async function (hero) {
+  try {
+    const response = await axios.delete(`${API}/heroes/${hero.id}`);
+    parseItem(response, 200);
+    return hero.id;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const dataService = {
   getHeroes,
   getHero,
   updateHero,
+  addHero,
+  deleteHero,
 };
