@@ -23,6 +23,19 @@ const routes = [
     props: r => ({ id: parseInt(r.params.id, 10), derivedHero: r.params.hero }),
   },
   {
+    path: '/villains',
+    name: 'villains',
+    component: () =>
+      import(/* webpackChunkName: "bundle.villain" */ '@/views/Villains'),
+  },
+  {
+    path: '/villains/:id',
+    name: 'villain-detail',
+    component: () =>
+      import(/* webpackChunkName: "bundle.villain" */ '@/views/VillainDetail'),
+    props: r => ({ id: parseInt(r.params.id, 10), derivedHero: r.params.hero }),
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

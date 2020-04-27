@@ -37,10 +37,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import HeroList from '@/components/HeroList';
 import Modal from '@/components/modal';
+import { createNamespacedHelpers } from 'vuex';
 import * as Shared from '../shared';
+
+const { mapActions, mapState } = createNamespacedHelpers('hero');
 
 export default {
   name: 'Heroes',

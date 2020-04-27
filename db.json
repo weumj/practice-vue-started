@@ -4,7 +4,7 @@
       "id": 10,
       "firstName": "Ella",
       "lastName": "Papa",
-      "capeCounter": "2",
+      "capeCounter": 1,
       "originDate": "1996-06-06",
       "description": "fashionista"
     },
@@ -38,7 +38,9 @@
       "id": 10,
       "firstName": "Malcolm",
       "lastName": "Reynolds",
-      "description": "I don't believe there is a power in the verse that can stop Kaylee from being cheerful."
+      "description": "I don't believe there is a power in the verse that can stop Kaylee from being cheerful.",
+      "originDate": "Invalid Date",
+      "fullName": "Malcolm Reynolds"
     },
     {
       "id": 20,

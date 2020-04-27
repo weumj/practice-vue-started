@@ -70,7 +70,9 @@
 <script>
 import { format } from 'date-fns';
 import { displayDateFormat } from '@/shared';
-import { mapActions, mapGetters } from 'vuex';
+import { createNamespacedHelpers } from 'vuex';
+
+const { mapActions, mapGetters } = createNamespacedHelpers('hero');
 
 export default {
   name: 'HeroDetail',
